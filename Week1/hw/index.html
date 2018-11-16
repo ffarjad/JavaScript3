@@ -8,16 +8,43 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="format-detection" content="telephone=no">
+  <title>HYFJ3W1</title>
   <link rel="apple-touch-icon" href="./hyf.png">
   <link rel="shortcut icon" type="image/png" href="./hyf.png" />
   <title>HYF-GITHUB</title>
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
 </head>
+<body onload="main()">
+  <div class="root">
+      <div class="header">
+          <label for="repositories">HYF Repositories</label>
+          <select id="repositories">
+              <option selected="Choose Repository">Choose a Repository</option>
+          </select>
+          <div id="loading-icon"></div>
+      </div>
+      <div class="body row">
+          <div id="repo_info" class="repo_info">
 
-<body>
-  <div id="root"></div>
+          </div>
+          <div id="repo_contributors" class="repo_contributors">>
+            <div id="contributorList">           
+            </div>
+          </div>
+          <!-- <div id="contributorList">           
+          </div>
+          <div class="repository-info"></div>
+          <div class="contributors">
+              <ul class="contributors-list"></ul>
+          </div> -->
+      </div>
+  </div>
   <script src="./index.js"></script>
 </body>
+<!-- <body>
+  <div id="root"></div>
+  <script src="./index.js"></script>
+</body> -->
 
 </html>
