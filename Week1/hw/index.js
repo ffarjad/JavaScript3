@@ -1,13 +1,13 @@
 function main(){
   console.log('main!');
-  const HyfReposHttps = 'https://api.github.com/orgs/HackYourFuture/repos';
+  const HyfReposHttps = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   getApiResponse(HyfReposHttps, xhrCallback);
   console.log(HyfReposHttps);
 }
 
 
 // Function that makes an server request (API call)
-function getApiResponse(theUrl, callback)
+function getApiResponse(url, callback)
 {
   var xmlHttp = new XMLHttpRequest();
   xmlHttp.onreadystatechange = function() { 
@@ -17,7 +17,7 @@ function getApiResponse(theUrl, callback)
       callback(xmlHttp.responseText);
     }
   }
-  xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+  xmlHttp.open("GET", url, true); // true for asynchronous 
   showLoading(true);
   xmlHttp.send(null);
 }
@@ -86,7 +86,7 @@ function renderRepositoryInfo(selectedRepository){
 
 function renderRepositoryContributers(response){
   const contributers = JSON.parse(response);
-  const contributorsListElement = document.querySelector('#contributorList');
+  const contributorsListElement = document.querySelector('#repo_contributors');
   while( contributorsListElement.hasChildNodes()){
     contributorsListElement.removeChild(contributorsListElement.firstChild);
   }
