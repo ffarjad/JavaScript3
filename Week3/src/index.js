@@ -1,10 +1,15 @@
-function main(){
-  console.log('main!');
-  const HyfReposHttps = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-  fetchJSON(HyfReposHttps)
-    .then(data => xhrCallback(data))
-    .catch(err => renderError(err));
+'use strict';
+async function main(){
+  try {
+    console.log('main!');
+    const HyfReposHttps = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
+    const reposList = await fetchJSON(HyfReposHttps);
+    xhrCallback(reposList);
+  }catch(err) {
+    renderError(err)
+  }
 }
+
 
 function fetchJSON(url) {
   console.log('calling fetch json');
@@ -40,8 +45,8 @@ function xhrCallback(data){
 // Add options to select element
 function addSelectElementOptions(arr){
 	console.log('calling addSelectElementOptions');
-  	let selectElement = document.getElementById("repositories");
-  	arr.forEach(rep => {
+  let selectElement = document.getElementById("repositories");
+  arr.forEach(rep => {
     let option = document.createElement('option');
     option.text = rep.name;
     option.value = rep.id;
@@ -51,18 +56,22 @@ function addSelectElementOptions(arr){
 
 //Function that works if select element change
 function checkSelectChanging (arr) {
-	console.log('calling checkSelectChanging');
-  	let selectElement = document.getElementById("repositories");
-  	selectElement.addEventListener("change", function(){
-    const selectValue = selectElement.value;
-    const repo = arr.filter(repo => repo.id == selectValue)[0];
-    renderRepositoryInfo(repo);
-    const repoContributersUrl = repo.contributors_url;
-    fetchJSON(repoContributersUrl)
-      .then(data=> renderRepositoryContributers(data))
-      .catch(err => renderError(err));
-  });
+  try {
+    console.log('calling checkSelectChanging');
+    let selectElement = document.getElementById("repositories");
+    selectElement.addEventListener("change", async function(){
+      const selectValue = selectElement.value;
+      const repo = arr.filter(repo => repo.id == selectValue)[0];
+      renderRepositoryInfo(repo);
+      const repoContributersUrl = repo.contributors_url;
+      const contributersList = await fetchJSON(repoContributersUrl);
+      renderRepositoryContributers(contributersList);
+    });
+  }catch(err) {
+    renderError(err)
+  }
 }
+
 
 function renderRepositoryInfo(selectedRepository){
   // let repo = arr.filter(repo => repo.id == value)[0];
@@ -104,7 +113,7 @@ function renderRepositoryInfo(selectedRepository){
 }
 
 function renderRepositoryContributers(response){
-	console.log('calling renderRepositoryContributers');
+	 console.log('calling renderRepositoryContributers');
 	 const repoContributers = document.querySelector('#repo_contributors');
   	repoContributers.innerHTML =``;
   	response.forEach(function(item){
